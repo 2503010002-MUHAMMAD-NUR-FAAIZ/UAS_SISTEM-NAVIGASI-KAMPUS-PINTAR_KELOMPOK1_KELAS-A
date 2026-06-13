@@ -11,6 +11,30 @@ using namespace std;
 // 3. Struktur Data Queue (Untuk Antrean Layanan)
 // 4. Struktur Data Linked List (Untuk Daftar Gedung)
 
+// DATABASE GEDUNG - HUSNI
+struct Gedung {
+    string nama;
+    string deskripsi;
+};
+
+Gedung daftarGedung[] = {
+    {"Lab",             "Laboratorium komputer dan praktikum"},
+    {"Gedung Mashudi",  "Gedung perkuliahan"},
+    {"Gedung Solihin",  "Gedung perkuliahan"},
+    {"Kantin",          "Pusat makanan dan minuman kampus"},
+    {"Perpustakaan",    "Pusat referensi dan belajar mahasiswa"}
+};
+
+
+int jarak[5][5] = {
+    //lab //gm  //gs //kntn //perpus
+    {  0,  100,  150,  200,  120 },  // Lab
+    {100,    0,   80,  150,   90 },  // Gm
+    {150,   80,    0,  100,   70 },  // GS
+    {200,  150,  100,    0,  130 },  // Kantin
+    {120,   90,   70,  130,    0 },  // Perpus
+};
+
 // --- DEKLARASI FUNGSI UTAMA APP --- 
 void menuRuteTerpendek() {
 	cout << "\n[Modul Graph] --- FITUR RUTE TERPENDEK ---" << endl;
