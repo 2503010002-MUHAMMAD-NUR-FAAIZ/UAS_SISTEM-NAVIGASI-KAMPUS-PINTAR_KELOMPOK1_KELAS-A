@@ -3,100 +3,94 @@
 
 using namespace std;
 
-// ============================================================================
-// --- SISTEM NAVIGASI KAMPUS PINTAR ---
-// ============================================================================
-
-// --- TEMPAT STRUKTUR DATA (URUTAN PENGERJAAN & REVISI) ---
-// 1. Struktur Data Queue (Untuk Antrean Layanan - Oleh: Faiz)
-// 2. Struktur Data Linked List (Untuk Daftar Gedung - Oleh: Zidni)
-// 3. Struktur Data BST (Untuk Cari Info Ruangan - Oleh: Frian)
-// 4. Struktur Data Graph (Untuk Rute Terpendek - Oleh: Husni)
-
-
-// ============================================================================
-// --- DEKLARASI MODUL & FUNGSI UTAMA APP --- 
-// ============================================================================
-
-// 1. MODUL QUEUE (Oleh: Faiz)
-// TODO: Definisikan struct NodeQueue, pointer front & rear di sini
-void menuAntreanLayanan() {
-	cout << "\n[Modul Queue] --- FITUR ANTREAN LOKET KAMPUS ---" << endl;
-	// TODO: Tugas Faaiz bagian Queue kerjakan logikanya di sini
-	cout << "Fitur ini masih dalam pengembangan...\n";
+// ==========================================
+// UTILITAS GLOBAL & VARIABEL (Diperlukan Semua)
+// ==========================================
+string toLowerManual(string s) {
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] >= 'A' && s[i] <= 'Z') {
+            s[i] = s[i] + 32; 
+        }
+    }
+    return s;
 }
 
-
-// 2. MODUL LINKED LIST & SINKRONISASI (Oleh: Zidni)
-// TODO: Definisikan struct NodeFasilitas dan pointer headFasilitas di sini
-void menuDaftarFasilitas() {
-	cout << "\n[Modul Linked List] --- DAFTAR SELURUH FASILITAS ---" << endl;
-	// TODO: Tugas Zidni bagian Linked List kerjakan logikanya di sini
-	cout << "Fitur ini masih dalam pengembangan...\n";
+bool ada(string kalimat, string kata) {
+    return kalimat.find(kata) != string::npos;
 }
 
+const int MAX_GEDUNG = 11; 
+const int INF = 999999; 
+string namaGedung[MAX_GEDUNG] = {
+    "Gerbang Utama", "Parkiran Mobil", "Bundaran Kampus", "Gedung Solihin", "Gedung Rektorat", 
+    "Ormawa", "Sekretariat UKM", "Parkiran Motor", "Laboratorium", "Perpustakaan", "Gedung Mashudi"
+};
+int adjMatrix[MAX_GEDUNG][MAX_GEDUNG];
 
-// 3. MODUL BST / BINARY SEARCH TREE (Oleh: Frian)
-// TODO: Definisikan struct NodeBST dan pointer root di sini
-void menuCariInformasi()  {
-	cout << "\n[Modul BST] --- FITUR CARI INFO FASILITAS ---" << endl;
-	// TODO: Tugas Frian bagian BST kerjakan logikanya di sini
-	cout << "Fitur ini masih dalam pengembangan...\n";
-}
+// ==========================================
+// PROTOTYPE FUNGSI (Pencegah Error Dependency)
+// ==========================================
+struct NodeBST;
+extern NodeBST* root;
+int cariIndeksGedung(string nama);
+void hitungDijkstra(int asal, int tujuan);
+NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml);
 
+// ==========================================
+// PLACEHOLDER / CANGKANG KOSONG UNTUK ANGGOTA
+// ==========================================
 
-// 4. MODUL GRAPH & DIJKSTRA (Oleh: Husni)
-// TODO: Definisikan matriks ketetanggaan, nilai INF, dan array rute di sini
-void menuRuteTerpendek() {
-	cout << "\n[Modul Graph] --- FITUR RUTE TERPENDEK ---" << endl;
-	// TODO: Tugas Husni bagian Graph kerjakan logikanya di sini
-	cout << "Fitur ini masih dalam pengembangan...\n";
-}
+// -- Slot Zidni --
+void inisialisasiDataKampus() { /* Akan diisi Zidni */ }
+void menuDaftarFasilitas() { cout << "\n[Info] Fitur Zidni belum masuk.\n"; }
 
+// -- Slot Husni --
+void inisialisasiGraph() { /* Akan diisi Husni */ }
+void menuRuteTerpendek() { cout << "\n[Info] Fitur Husni belum masuk.\n"; }
 
-// ============================================================================
-// MAIN FUNCTION (MANAJEMEN MENU UTAMA)
-// ============================================================================
+// -- Slot Frian --
+void menuCariInformasiKelas() { cout << "\n[Info] Fitur Frian belum masuk.\n"; }
+
+// -- Slot Faiz --
+void menuAntreanLayanan() { cout << "\n[Info] Fitur Faiz belum masuk.\n"; }
+
+// ==========================================
+// FUNGSI UTAMA (MAIN)
+// ==========================================
 int main() {
-	int pilihan;
-	
-	// TODO: Panggil fungsi inisialisasi graph / data kampus di sini nanti
-	
-	do {
-		cout << "\n==============================================" << endl;
-		cout << "	SISTEM NAVIGASI KAMPUS PINTAR	" << endl;
-		cout << "==============================================" << endl;
-		cout << "1. Cari Rute Terpendek Antar Gedung" << endl;
-		cout << "2. Cari Informasi Ruangan Atau Fasilitas" << endl;
-		cout << "3. Ambil Atau Proses Antrean Loket Layanan" << endl;
-		cout << "4. Lihat Semua Daftar Fasilitas Kampus" << endl;
-		cout << "5. Keluar Aplikasi" << endl;
-		cout << "------------------------------------" << endl;
-		cout << "Pilih Menu (1-5): ";
-		cin >> pilihan;
-		
-		cin.ignore(); // Membersihkan sisa (\n) dari buffer cin
+    inisialisasiGraph();
+    inisialisasiDataKampus();
+    int pilihan;
+    
+    do {
+        cout << "\n|================================================|" << endl;
+        cout << "|          SISTEM NAVIGASI KAMPUS PINTAR         |" << endl;
+        cout << "|        UNIVERSITAS PERJUANGAN TASIKMALAYA      |" << endl;
+        cout << "|================================================|" << endl;
+        cout << "| :                 PILIH MENU                 : |" << endl;
+        cout << "|================================================|" << endl;
+        cout << "| 1. Daftar Fasilitas                            |" << endl;
+        cout << "| 2. Cari Rute Terpendek Antar Lokasi            |" << endl;
+        cout << "| 3. Cari Informasi Ruangan Kelas                |" << endl;
+        cout << "| 4. Antrean Layanan                             |" << endl;
+        cout << "| 5. Keluar                                      |" << endl;
+        cout << "|================================================|" << endl;
+        cout << " Pilih Menu (1-5): ";
+        cin >> pilihan; cin.ignore(); 
 
-		switch (pilihan) {
-			case 1:
-				menuRuteTerpendek();
-				break;
-			case 2:
-				menuCariInformasi();
-				break;
-			case 3:
-				menuAntreanLayanan();
-				break;
-			case 4:
-				menuDaftarFasilitas();
-				break;
-			case 5:
-				cout << "\nKeluar dari program. Terima kasih!\n";
-				break;
-			default:
-				cout << "\nPilihan tidak tersedia! Silakan coba kembali.\n";
-		}
-	} while (pilihan != 5);
-	
-	return 0;
+        if (pilihan == 1) menuDaftarFasilitas();
+        else if (pilihan == 2) menuRuteTerpendek();
+        else if (pilihan == 3) menuCariInformasiKelas();
+        else if (pilihan == 4) menuAntreanLayanan();
+        else if (pilihan == 5) cout << "\nKeluar dari program. Terima kasih!\n";
+        else cout << "\nPilihan tidak tersedia! Silakan coba kembali.\n";
+    } while (pilihan != 5);
+    
+    return 0;
 }
+
+// Stub Sementara agar bisa di-compile
+int cariIndeksGedung(string nama) { return -1; }
+void hitungDijkstra(int asal, int tujuan) {}
+NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml) { return NULL; }
+NodeBST* root = NULL;
