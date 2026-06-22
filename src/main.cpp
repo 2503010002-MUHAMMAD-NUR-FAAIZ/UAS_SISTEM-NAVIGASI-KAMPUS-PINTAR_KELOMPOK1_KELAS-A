@@ -3,9 +3,10 @@
 
 using namespace std;
 
-// ==========================================
-// UTILITAS GLOBAL & VARIABEL (Diperlukan Semua)
-// ==========================================
+// ==============================
+// SISTEM NAVIGASI KAMPUS PINTAR
+// ==============================
+
 string toLowerManual(string s) {
     for (int i = 0; i < s.length(); i++) {
         if (s[i] >= 'A' && s[i] <= 'Z') {
@@ -19,44 +20,494 @@ bool ada(string kalimat, string kata) {
     return kalimat.find(kata) != string::npos;
 }
 
-const int MAX_GEDUNG = 11; 
-const int INF = 999999; 
-string namaGedung[MAX_GEDUNG] = {
-    "Gerbang Utama", "Parkiran Mobil", "Bundaran Kampus", "Gedung Solihin", "Gedung Rektorat", 
-    "Ormawa", "Sekretariat UKM", "Parkiran Motor", "Laboratorium", "Perpustakaan", "Gedung Mashudi"
-};
-int adjMatrix[MAX_GEDUNG][MAX_GEDUNG];
+// ====================================================
+// 1. MODUL QUEUE / ANTREAN (Oleh: Muhammad Nur Faaiz)
+// ====================================================
 
-// ==========================================
-// PROTOTYPE FUNGSI (Pencegah Error Dependency)
-// ==========================================
-struct NodeBST;
-extern NodeBST* root;
-int cariIndeksGedung(string nama);
-void hitungDijkstra(int asal, int tujuan);
-NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml);
 
-// ==========================================
-// PLACEHOLDER / CANGKANG KOSONG UNTUK ANGGOTA
-// ==========================================
 
-// -- Slot Zidni --
-void inisialisasiDataKampus() { /* Akan diisi Zidni */ }
-void menuDaftarFasilitas() { cout << "\n[Info] Fitur Zidni belum masuk.\n"; }
 
-// -- Slot Husni --
-void inisialisasiGraph() { /* Akan diisi Husni */ }
-void menuRuteTerpendek() { cout << "\n[Info] Fitur Husni belum masuk.\n"; }
 
-// -- Slot Frian --
-void menuCariInformasiKelas() { cout << "\n[Info] Fitur Frian belum masuk.\n"; }
 
-// -- Slot Faiz --
-void menuAntreanLayanan() { cout << "\n[Info] Fitur Faiz belum masuk.\n"; }
 
-// ==========================================
-// FUNGSI UTAMA (MAIN)
-// ==========================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =================================================================
+// 2. MODUL BST / BINARY SEARCH TREE (Oleh: Muhammad Frian Erliana)
+// =================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ===============================================================
+// 3. MODUL LINKED LIST & SINKRONISASI (Oleh: Mohamad Zidni Ilma)
+// ===============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ================================================
+// 4. MODUL GRAPH & DIJKSTRA (Oleh: Muhamad Husni)
+// ================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void inisialisasiDataKampus() {} // GANTI DAN LENGKAPI OLEH KODINGAN MUHAMMAD ZIDNI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// FUNGSI UI MENU UTAMA
+// =====================
+
+// void menuDaftarFasilitas() {} // GANTI DAN LENGKAPI KODINGANNYA OLEH MOHAMAD ZIDNI ILMA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void menuRuteTerpendek() {} // GANTI DAN LENGKAPI OLEH KODINGANNYA MUHAMMAD HUSNI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void menuCariInformasiKelas() {} // GANTI DAN LENGKAPI KODINGANNYA OLEH MUHAMMAD FRIAN ERLIANA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void menuAntreanLayanan() {} // GANTI DAN LENGKAPI KODINGANNYA OLEH MUHAMMAD NUR FAAIZ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main() {
     inisialisasiGraph();
     inisialisasiDataKampus();
@@ -88,9 +539,3 @@ int main() {
     
     return 0;
 }
-
-// Stub Sementara agar bisa di-compile
-int cariIndeksGedung(string nama) { return -1; }
-void hitungDijkstra(int asal, int tujuan) {}
-NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml) { return NULL; }
-NodeBST* root = NULL;
