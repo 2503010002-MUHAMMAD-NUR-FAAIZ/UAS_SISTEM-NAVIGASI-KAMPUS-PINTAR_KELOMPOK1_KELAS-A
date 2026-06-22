@@ -213,35 +213,35 @@ void tambahFasilitas(string nama, string kat, string arrRuangan[], int jml) {
     root = insertBST(root, nama, kat, arrRuangan, jml);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ================================================
 // 4. MODUL GRAPH & DIJKSTRA (Oleh: Muhamad Husni)
 // ================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -323,78 +323,6 @@ void inisialisasiDataKampus() {
 
 
 
-// void inisialisasiDataKampus() {} // GANTI DAN LENGKAPI OLEH KODINGAN MUHAMMAD ZIDNI
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void menuDaftarFasilitas() {
-    cout << "\n|================================================|" << endl;
-    cout << "|          DAFTAR SELURUH FASILITAS KAMPUS        |" << endl;
-    cout << "|================================================|" << endl;
-    NodeFasilitas* temp = headFasilitas; int nomor = 1;
-    while (temp != NULL) {
-        cout << "  " << nomor << ". " << temp->namaFasilitas << " [" << temp->kategori << "]" << endl;
-        if(temp->jmlRuangan > 0) {
-            for(int i = 0; i < temp->jmlRuangan; i++) {
-                cout << "     -> " << temp->daftarRuangan[i] << endl;
-            }
-        }
-        temp = temp->next; nomor++;
-    }
-    cout << "|================================================|" << endl;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -425,22 +353,22 @@ void menuDaftarFasilitas() {
 // FUNGSI UI MENU UTAMA
 // =====================
 
-// void menuDaftarFasilitas() {} // GANTI DAN LENGKAPI KODINGANNYA OLEH MOHAMAD ZIDNI ILMA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void menuDaftarFasilitas() {
+    cout << "\n|================================================|" << endl;
+    cout << "|          DAFTAR SELURUH FASILITAS KAMPUS        |" << endl;
+    cout << "|================================================|" << endl;
+    NodeFasilitas* temp = headFasilitas; int nomor = 1;
+    while (temp != NULL) {
+        cout << "  " << nomor << ". " << temp->namaFasilitas << " [" << temp->kategori << "]" << endl;
+        if(temp->jmlRuangan > 0) {
+            for(int i = 0; i < temp->jmlRuangan; i++) {
+                cout << "     -> " << temp->daftarRuangan[i] << endl;
+            }
+        }
+        temp = temp->next; nomor++;
+    }
+    cout << "|================================================|" << endl;
+}
 
 // void menuRuteTerpendek() {} // GANTI DAN LENGKAPI OLEH KODINGANNYA MUHAMMAD HUSNI
 
