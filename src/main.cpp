@@ -28,10 +28,7 @@ string namaGedung[MAX_GEDUNG] = {
 };
 int adjMatrix[MAX_GEDUNG][MAX_GEDUNG];
 
-// Deklarasi Awal BST (Agar kodingan Zidni bisa memanggil fungsi Frian)
-struct NodeBST;
-extern NodeBST* root;
-NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml);
+// Deklarasi Awal untuk modul bawahnya
 int cariIndeksGedung(string nama);
 void hitungDijkstra(int asal, int tujuan);
 
@@ -110,8 +107,8 @@ string cariRuangan(string input) {
         return "Ruang BAAK (Gedung Solihin Lt 2)";
     } 
     else if (ada(inp, "baumk") || ada(inp, "ruang baumk")) {
-    	return "Ruang BAUMK (Gedung Solihin Lt 1)";
-	}
+        return "Ruang BAUMK (Gedung Solihin Lt 1)";
+    }
     else if (ada(inp, "dekan teknik") || ada(inp, "teknik sipil") || ada(inp, "sipil") || ada(inp, "informatika") || ada(inp, "teknik") || ada(inp, "ft")) {
         return "Ruang Dekan Teknik (Gedung Solihin Lt 1)";
     } 
@@ -229,9 +226,119 @@ void menuAntreanLayanan() {
 // =================================================================
 // 2. MODUL BST / BINARY SEARCH TREE (Oleh: Muhammad Frian Erliana)
 // =================================================================
-// [FRIAN: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGANMU]
+
+struct NodeBST {
+    string namaGedung;
+    string kategori; // Sinkron dengan parameter 'kat' dari Zidni
+    string daftarRuangan[15];
+    int jmlRuangan;
+    NodeBST *kiri, *kanan;
+};
+
+NodeBST* root = NULL; 
+
+NodeBST* buatNodeBaru(string nama, string kat, string arrRuangan[], int jml) {
+    NodeBST* baru = new NodeBST();
+    baru->namaGedung = nama;
+    baru->kategori = kat;
+    baru->jmlRuangan = jml;
+    for (int i = 0; i < jml; i++) {
+        baru->daftarRuangan[i] = arrRuangan[i];
+    }
+    baru->kiri = baru->kanan = NULL;
+    return baru;
+}
+
+// Fungsi Insert ke BST
+NodeBST* insertBST(NodeBST* node, string nama, string kat, string arrRuangan[], int jml) {
+    if (node == NULL) return buatNodeBaru(nama, kat, arrRuangan, jml);
+    
+    if (toLowerManual(nama) < toLowerManual(node->namaGedung))
+        node->kiri = insertBST(node->kiri, nama, kat, arrRuangan, jml);
+    else if (toLowerManual(nama) > toLowerManual(node->namaGedung))
+        node->kanan = insertBST(node->kanan, nama, kat, arrRuangan, jml);
+        
+    return node;
+}
+
+// Fungsi Pencarian BST (Diubah mengembalikan NodeBST* agar bisa terintegrasi dengan Rute Husni)
+NodeBST* cariBST(NodeBST* node, string namaDicari) {
+    if (node == NULL) return NULL;
+    
+    string keyLower = toLowerManual(namaDicari);
+    
+    // 1. Cek apakah yang dicari ada di Nama Gedung
+    if (ada(toLowerManual(node->namaGedung), keyLower)) return node;
+    
+    // 2. Cek apakah yang dicari ada di dalam Daftar Ruangan gedung ini (FITUR YANG TADI HILANG)
+    for (int i = 0; i < node->jmlRuangan; i++) {
+        if (ada(toLowerManual(node->daftarRuangan[i]), keyLower)) {
+            return node;
+        }
+    }
+    
+    // 3. Telusuri cabang kiri dan kanan
+    NodeBST* kiri = cariBST(node->kiri, namaDicari);
+    if (kiri != NULL) return kiri;
+    
+    return cariBST(node->kanan, namaDicari);
+}
+
+// Fungsi Menu UI untuk BST (Mengembalikan fitur interaksi panduan rute)
 void menuCariInformasiKelas() {
-    cout << "\n[Info] Fitur BST belum dimasukkan oleh Frian.\n";
+    string kataKunci;
+    cout << "\nMasukkan nama gedung/ruangan yang dicari (Misal: Solihin, GS 1A, Lab Komputer): ";
+    getline(cin, kataKunci);
+    
+    if (kataKunci == "") {
+        cout << "[Peringatan] Kata kunci pencarian tidak boleh kosong!" << endl;
+        return;
+    }
+    
+    cout << "\n[Pencarian BST] Melakukan tracking data untuk '" << kataKunci << "'..." << endl;
+    NodeBST* hasil = cariBST(root, kataKunci);
+    
+    if (hasil != NULL) {
+        cout << "\n|================================================|" << endl;
+        cout << "|                HASIL PENCARIAN (BST)           |" << endl;
+        cout << "|================================================|" << endl;
+        cout << "  Gedung   : " << hasil->namaGedung << endl;
+        cout << "  Kategori : " << hasil->kategori << endl;
+        if (hasil->jmlRuangan > 0) {
+            cout << "  Daftar Ruangan Gedung Ini:" << endl;
+            for (int i = 0; i < hasil->jmlRuangan; i++) {
+                cout << "     -> " << hasil->daftarRuangan[i] << endl;
+            }
+        } else {
+            cout << "  Detail   : Tidak ada informasi ruangan spesifik." << endl;
+        }
+        cout << "|================================================|" << endl;
+        
+        // INTEGRASI KE GRAF & DIJKSTRA milik HUSNI
+        int idTujuan = cariIndeksGedung(hasil->namaGedung);
+        char lihatRute;
+        cout << "\nApakah Anda ingin dipandu (melihat rute) menuju gedung ini? (y/n): ";
+        cin >> lihatRute;
+        
+        if ((lihatRute == 'y' || lihatRute == 'Y') && idTujuan != -1) {
+            cout << "\nMenuju Menu Rute...\n";
+            cout << "|================================================|" << endl;
+            cout << "|      PILIH LOKASI ANDA SAAT INI (KODE 0-10)     |" << endl;
+            cout << "|================================================|" << endl;
+            for (int i = 0; i < MAX_GEDUNG; i++) cout << "  [" << i << "] " << namaGedung[i] << endl;
+            cout << "|================================================|" << endl;
+            int asal;
+            cout << "Lokasi Anda saat ini (Pilih Kode 0-10): ";
+            cin >> asal;
+            if (asal >= 0 && asal < MAX_GEDUNG) {
+                hitungDijkstra(asal, idTujuan);
+            } else {
+                cout << "\n[Error] Kode lokasi asal tidak valid!" << endl;
+            }
+        }
+    } else {
+        cout << "\n[Info] Maaf, data ruangan/kelas '" << kataKunci << "' tidak ditemukan di sistem BST." << endl;
+    }
 }
 
 
@@ -366,5 +473,3 @@ int main() {
 // Stub Sementara Pelengkap Prototype
 int cariIndeksGedung(string nama) { return -1; }
 void hitungDijkstra(int asal, int tujuan) {}
-NodeBST* insertBST(NodeBST* node, string nama, string info, string arrRuangan[], int jml) { return NULL; }
-NodeBST* root = NULL;
