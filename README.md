@@ -7,31 +7,31 @@
 
 ## 👥 Tim Pengembang & Kontribusi Kode (Contributors)
 
-Proyek ini dikembangkan secara kolaboratif menggunakan Git Branching Workflow dengan membagi program ke dalam modul independen yang saling terintegrasi melalui *pointer* dan sinkronisasi data global:
+Proyek ini dikembangkan secara kolaboratif menggunakan Git Branching Workflow dengan membagi program ke dalam modul independen yang diintegrasikan oleh Lead Developer melalui sinkronisasi data global:
 
-* **Muhammad Nur Faaiz** *(Lead Developer / Project Owner)*
+* **Muhammad Nur Faaiz** *(Lead Developer / Project Owner / System Architect)*
   * **NIM:** 2503010002
-  * **Modul:** `Queue` (Sistem Antrean Cerdas Layanan Kampus)
-  * **Fungsi Utama:** `enqueueAntrean()`, `dequeueAntrean()`, `tampilkanAntrean()`, `cariRuangan()`, `menuAntreanLayanan()`.
-  * **Tanggung Jawab:** Perancangan arsitektur dasar `main.cpp`, pembersihan buffer `cin.ignore()`, utilitas penyeragaman huruf `toLowerManual()`, pencocokan substring `ada()`, serta penanganan fungsi otomatisasi rekomendasi ruangan loket berdasarkan teks keperluan mahasiswa.
+  * **Modul:** `Arsitektur Core & Global Utilities` (Fungsi UI Utama)
+  * **Fungsi Utama:** `main()`, `toLowerManual()`, `ada()`.
+  * **Tanggung Jawab:** Merancang arsitektur dasar `main.cpp`, mengelola *control flow* (perulangan menu utama), penanganan *buffer clearing* (`cin.ignore()`), pembuatan fungsi utilitas penyeragaman huruf (*case-insensitive*), pencocokan substring teks, serta bertanggung jawab penuh atas manajemen repositori Git (Branching, Code Review, dan resolusi *Conflict Merge*).
 
-* **Mohamad Zidni Ilma** *(Software Engineer 1)*
+* **Mohamad Zidni Ilma** *(Software Engineer 1 - Linear Data Specialist)*
   * **NIM:** 2503010007
-  * **Modul:** `Singly Linked List` (Katalog Inventaris Fasilitas Kampus)
-  * **Fungsi Utama:** Struct `NodeFasilitas`, `tambahFasilitas()`, `inisialisasiDataKampus()`, `menuDaftarFasilitas()`.
-  * **Tanggung Jawab:** Manajemen alokasi memori dinamis berantai untuk seluruh gedung, penyusunan database spasial internal kampus, serta mengimplementasikan **sinkronisasi otomatis hulu-hilir** di mana setiap elemen yang masuk ke Linked List langsung diumpankan (*feeding*) menjadi objek node pohon BST.
+  * **Modul:** `Singly Linked List` & `Queue` (Katalog Inventaris & Sistem Antrean Cerdas)
+  * **Fungsi Utama:** Struct `NodeFasilitas`, Struct `NodeQueue`, `tambahFasilitas()`, `inisialisasiDataKampus()`, `menuDaftarFasilitas()`, `enqueueAntrean()`, `dequeueAntrean()`, `tampilkanAntrean()`, `cariRuangan()`, `menuAntreanLayanan()`.
+  * **Tanggung Jawab:** Manajemen alokasi memori dinamis berbasis *pointer* untuk dua struktur linear sekaligus: katalog berantai gedung kampus dan antrean layanan digital berprinsip FIFO. Mengimplementasikan **sinkronisasi otomatis hulu-hilir** dari Linked List ke BST, serta membangun algoritma *parser* teks otomatis untuk rekomendasi ruangan loket berdasarkan keperluan mahasiswa.
 
-* **Muhammad Frian Erliana** *(Software Engineer 2)*
+* **Muhammad Frian Erliana** *(Software Engineer 2 - Hierarchical Data Specialist)*
   * **NIM:** 2503010017
   * **Modul:** `Binary Search Tree (BST)` (Pencarian Informasi Ruangan Kelas)
   * **Fungsi Utama:** Struct `NodeBST`, `insertBST()`, `cariDiBST()`, `menuCariInformasiKelas()`.
   * **Tanggung Jawab:** Penyusunan struktur pohon biner terurut alfabetis untuk memotong kompleksitas pencarian nama ruangan/kelas spesifik (seperti lab atau nomor kelas) menjadi $O(\log n)$, serta menjembatani logika penawaran panduan rute otomatis menuju lokasi jika ruangan ditemukan.
 
-* **Muhammad Husni** *(Software Engineer 3)*
+* **Muhammad Husni** *(Software Engineer 3 - Network & Graph Specialist)*
   * **NIM:** 2503010009
   * **Modul:** `Graph` & `Algoritma Dijkstra` (Rute Navigasi Terpendek)
   * **Fungsi Utama:** `cariIndeksGedung()`, `inisialisasiGraph()`, `hitungDijkstra()`, `menuRuteTerpendek()`.
-  * **Tanggung Jawab:** Representasi denah fisik 11 titik lokasi kampus ke bentuk matriks ketetanggaan (`adjMatrix`), penanganan nilai tak hingga (`INF = 999999`) pada jalur buntu, pencarian bobot jarak terkecil, penelusuran balik (*backtracking*) via array `parent`, dan rekonstruksi urutan jalan sekuensial.
+  * **Tanggung Jawab:** Representasi denah fisik 11 titik lokasi kampus ke bentuk matriks ketetanggaan (`adjMatrix`), penanganan nilai tak hingga (`INF = 999999`) pada jalur buntu, kalkulasi bobot jarak terkecil, penelusuran balik (*backtracking*) via array `parent`, dan rekonstruksi visual urutan rute jalan secara sekuensial.
 
 ---
 
@@ -39,18 +39,18 @@ Proyek ini dikembangkan secara kolaboratif menggunakan Git Branching Workflow de
 
 | No | Fitur Aplikasi | Struktur Data Terpilih | Algoritma / Prinsip Kerja | Alasan Pemilihan Teknik & Keunggulan |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | **Katalog Fasilitas Dinamis** | **Singly Linked List** | *Linear Traversal Insertion* | Bersifat dinamis. Sangat efisien dalam penggunaan memori runtime karena alokasi pointer dibuat saat dibutuhkan, mempermudah ekspansi data gedung baru tanpa batasan ukuran kaku array statis. |
-| **2** | **Rekomendasi Rute Terpendek** | **Graph** (Adjacency Matrix) | **Algoritma Dijkstra** | Peta kampus direpresentasikan secara akurat dengan 11 Vertex (Gedung) dan Edge berbobot meter. Dijkstra menjamin penemuan rute tercepat/terpendek secara matematis. |
-| **3** | **Cari Cepat Info Kelas** | **Binary Search Tree (BST)** | *Binary Search Lookup* & Rekursif | Membaca sub-ruangan (seperti GS 1A, Lab Komputer, Arsip Skripsi) secara **case-insensitive**. Kecepatan pencarian tetap optimal $O(\log n)$ meskipun ribuan ruangan kelas didaftarkan. |
-| **4** | **Sistem Antrean Loket** | **Queue** (Linked Queue Pointer) | Prinsip **FIFO** (*First-In, First-Out*) | Mengelola urutan pelayanan administrasi secara adil. Dilengkapi sistem cerdas pembaca teks keperluan untuk disposisi otomatis ke gedung tujuan. |
+| **1** | **Katalog Fasilitas Dinamis** | **Singly Linked List** | *Linear Traversal Insertion* | Bersifat dinamis. Sangat efisien dalam penggunaan memori runtime karena alokasi pointer dibuat saat dibutuhkan, mempermudah ekspansi data gedung baru tanpa batasan ukuran kaku array statis. *(Dikembangkan oleh Zidni)* |
+| **2** | **Sistem Antrean Loket** | **Queue** (Linked Queue Pointer) | Prinsip **FIFO** (*First-In, First-Out*) | Mengelola urutan pelayanan administrasi secara adil. Dilengkapi sistem cerdas pembaca teks keperluan untuk disposisi otomatis ke gedung tujuan. *(Dikembangkan oleh Zidni)* |
+| **3** | **Cari Cepat Info Kelas** | **Binary Search Tree (BST)** | *Binary Search Lookup* & Rekursif | Membaca sub-ruangan (seperti GS 1A, Lab Komputer, Arsip Skripsi) secara **case-insensitive**. Kecepatan pencarian tetap optimal $O(\log n)$ meskipun ribuan ruangan kelas didaftarkan. *(Dikembangkan oleh Frian)* |
+| **4** | **Rekomendasi Rute Terpendek** | **Graph** (Adjacency Matrix) | **Algoritma Dijkstra** | Peta kampus direpresentasikan secara akurat dengan 11 Vertex (Gedung) dan Edge berbobot meter. Dijkstra menjamin penemuan rute tercepat/terpendek secara matematis. *(Dikembangkan oleh Husni)* |
 
 ---
 
 ## 🔗 Sinkronisasi & Inter-Module Integration (Kelebihan Sistem)
 Aplikasi ini tidak sekadar menumpuk struktur data terpisah, melainkan mengintegrasikannya dalam satu ekosistem logika:
-1. **Linked List ➡️ BST:** Fungsi `tambahFasilitas()` milik Zidni secara otomatis memanggil `insertBST()` milik Frian. Database yang diinisialisasi sekali langsung terpetakan ke dalam dua struktur data berbeda.
+1. **Linked List ➡️ BST:** Fungsi `tambahFasilitas()` secara otomatis memanggil `insertBST()`. Database yang diinisialisasi sekali langsung terpetakan ke dalam dua struktur data berbeda.
 2. **BST ➡️ Graph / Dijkstra:** Saat user mencari info kelas via menu BST dan data ditemukan, sistem akan mendeteksi nama gedung terkait, mencari indeks numeriknya melalui `cariIndeksGedung()`, lalu langsung menawarkan opsi *direct-routing* untuk memicu algoritma Dijkstra milik Husni tanpa memaksa user mengetik kode lokasi kembali dari awal.
-3. **Queue ⬅️ Utilitas String:** Fungsi `cariRuangan()` bertindak sebagai *parser* pintar yang membaca kata kunci keperluan (misal: "ukt" atau "administrasi" diarahkan otomatis ke Ruang BAAK; "praktikum" diarahkan otomatis ke Laboratorium).
+3. **Queue ⬅️ Utilitas String:** Fungsi `cariRuangan()` memanfaatkan utilitas global milik Faaiz (`toLowerManual` & `ada`) sebagai *parser* pintar yang membaca kata kunci keperluan (misal: "krs" diarahkan otomatis ke Ruang BAAK; "praktikum" diarahkan otomatis ke Laboratorium).
 
 ---
 

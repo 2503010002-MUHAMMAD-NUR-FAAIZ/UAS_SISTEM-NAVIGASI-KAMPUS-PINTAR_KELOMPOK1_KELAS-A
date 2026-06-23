@@ -37,11 +37,11 @@ void hitungDijkstra(int asal, int tujuan);
 
 
 // ====================================================
-// 1. MODUL QUEUE / ANTREAN (Oleh: Muhammad Nur Faaiz)
+// 1. MODUL QUEUE / ANTREAN (Oleh: Mohamad Zidni Ilma)
 // ====================================================
-// [FAAIZ: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGANMU]
+// [ZIDNI: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGAN QUEUE-MU]
 void menuAntreanLayanan() {
-    cout << "\n[Info] Fitur Antrean belum dimasukkan oleh Faaiz.\n";
+    cout << "\n[Info] Fitur Antrean belum dimasukkan oleh Zidni.\n";
 }
 
 
@@ -57,7 +57,7 @@ void menuCariInformasiKelas() {
 // ===============================================================
 // 3. MODUL LINKED LIST & SINKRONISASI (Oleh: Mohamad Zidni Ilma)
 // ===============================================================
-// [ZIDNI: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGANMU]
+// [ZIDNI: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGAN LINKED LIST-MU]
 void inisialisasiDataKampus() {
     // Kosong sementara
 }
@@ -78,9 +78,9 @@ void menuRuteTerpendek() {
 }
 
 
-// =====================
-// FUNGSI UI MENU UTAMA
-// =====================
+// ==============================================================
+// 5. FUNGSI UI MENU UTAMA & INTEGRASI (Oleh: Muhammad Nur Faaiz)
+// ==============================================================
 int main() {
     inisialisasiGraph();
     inisialisasiDataKampus();
