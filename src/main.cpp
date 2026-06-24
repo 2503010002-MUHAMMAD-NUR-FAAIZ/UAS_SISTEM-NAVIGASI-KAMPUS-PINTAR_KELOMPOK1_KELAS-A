@@ -426,12 +426,144 @@ void menuDaftarFasilitas() {
 // ================================================
 // 4. MODUL GRAPH & DIJKSTRA (Oleh: Muhamad Husni)
 // ================================================
-// [HUSNI: NANTI HAPUS FUNGSI KOSONG INI, GANTI DENGAN KODINGANMU]
+
 void inisialisasiGraph() {
-    // Kosong sementara
+    // 1. Set semua jarak menjadi INF (tidak terhubung), kecuali ke node itu sendiri (0)
+    for (int i = 0; i < MAX_GEDUNG; i++) {
+        for (int j = 0; j < MAX_GEDUNG; j++) {
+            if (i == j) adjMatrix[i][j] = 0;
+            else adjMatrix[i][j] = INF;
+        }
+    }
+
+    // 2. Hubungan Jalur Sesuai Denah (Jarak estimasi dalam meter)
+   
+    // Area Bawah & Masuk
+    adjMatrix[0][1] = 50;  adjMatrix[1][0] = 50;   // Gerbang Utama <-> Parkiran Mobil
+    adjMatrix[0][2] = 100; adjMatrix[2][0] = 100;  // Gerbang Utama <-> Bundaran Kampus
+    
+    // Jalur Sisi Kiri (Sesuai garis panjang dari parkiran mobil ke atas)
+    adjMatrix[1][9] = 150; adjMatrix[9][1] = 150;  // Parkiran Mobil <-> Perpustakaan
+    
+    // Area Kanan Bawah (Bundaran ke Rektorat & Solihin)
+    adjMatrix[2][4] = 60;  adjMatrix[4][2] = 60;   // Bundaran Kampus <-> Gedung Rektorat
+    adjMatrix[2][3] = 80;  adjMatrix[3][2] = 80;   // Bundaran Kampus <-> Gedung Solihin
+    adjMatrix[4][3] = 30;  adjMatrix[3][4] = 30;   // Gedung Rektorat <-> Gedung Solihin (Jalur nyambung)
+    
+    // Persimpangan Tengah Atas dari Bundaran
+    adjMatrix[2][8] = 90;  adjMatrix[8][2] = 90;   // Bundaran Kampus <-> Laboratorium
+    adjMatrix[2][7] = 80;  adjMatrix[7][2] = 80;   // Bundaran Kampus <-> Parkiran Motor
+    
+    // Area Kiri Atas
+    adjMatrix[8][9] = 60;  adjMatrix[9][8] = 60;   // Laboratorium <-> Perpustakaan
+    adjMatrix[8][10] = 80; adjMatrix[10][8] = 80;  // Laboratorium <-> Gedung Mashudi
+    
+    // Area Kanan Atas
+    adjMatrix[7][5] = 40;  adjMatrix[5][7] = 40;   // Parkiran Motor <-> Ormawa
+    adjMatrix[3][5] = 70;  adjMatrix[5][3] = 70;   // Gedung Solihin <-> Ormawa (Garis ke atas dari Solihin)
+    adjMatrix[5][6] = 100; adjMatrix[6][5] = 100;  // Ormawa <-> Sekretariat UKM (Garis memutar di ujung kanan)
 }
+
+int cariIndeksGedung(string nama) {
+    string target = toLowerManual(nama);
+    for (int i = 0; i < MAX_GEDUNG; i++) {
+        if (toLowerManual(namaGedung[i]) == target) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void hitungDijkstra(int asal, int tujuan) {
+    int dist[MAX_GEDUNG];     // Menyimpan jarak terpendek
+    bool visited[MAX_GEDUNG]; // Menandai gedung yang sudah dikunjungi
+    int parent[MAX_GEDUNG];   // Untuk melacak rute jalur
+
+    // Inisialisasi awal algoritma Dijkstra
+    for (int i = 0; i < MAX_GEDUNG; i++) {
+        dist[i] = INF;
+        visited[i] = false;
+        parent[i] = -1;
+    }
+
+    dist[asal] = 0; // Jarak dari asal ke asal adalah 0
+
+    // Proses pencarian rute terpendek
+    for (int count = 0; count < MAX_GEDUNG - 1; count++) {
+        int minDist = INF, u = -1;
+
+        // Cari node dengan jarak terpendek yang belum dikunjungi
+        for (int i = 0; i < MAX_GEDUNG; i++) {
+            if (!visited[i] && dist[i] <= minDist) {
+                minDist = dist[i];
+                u = i;
+            }
+        }
+
+        if (u == -1) break; // Jika tidak ada node tersisa, hentikan
+        visited[u] = true;
+
+        // Update jarak node tetangga
+        for (int v = 0; v < MAX_GEDUNG; v++) {
+            if (!visited[v] && adjMatrix[u][v] != INF && dist[u] + adjMatrix[u][v] < dist[v]) {
+                dist[v] = dist[u] + adjMatrix[u][v];
+                parent[v] = u; // Catat dari mana kita datang
+            }
+        }
+    }
+
+    // Tampilkan Hasil
+    cout << "\n|================================================|" << endl;
+    cout << "|               HASIL RUTE TERPENDEK             |" << endl;
+    cout << "|================================================|" << endl;
+
+    if (dist[tujuan] == INF) {
+        cout << " [Error] Tidak ada jalur dari " << namaGedung[asal] << " ke " << namaGedung[tujuan] << ".\n";
+    } else {
+        cout << " Asal   : " << namaGedung[asal] << endl;
+        cout << " Tujuan : " << namaGedung[tujuan] << endl;
+        cout << " Jarak  : " << dist[tujuan] << " Meter\n";
+        cout << " Rute   : ";
+
+        // Backtracking (melacak balik rute dari tujuan ke asal)
+        int path[MAX_GEDUNG];
+        int pathL = 0;
+        int curr = tujuan;
+        while (curr != -1) {
+            path[pathL++] = curr;
+            curr = parent[curr];
+        }
+
+        // Print rute dari asal ke tujuan
+        for (int i = pathL - 1; i >= 0; i--) {
+            cout << namaGedung[path[i]];
+            if (i > 0) cout << " -> ";
+        }
+        cout << endl;
+    }
+    cout << "|================================================|" << endl;
+}
+
 void menuRuteTerpendek() {
-    cout << "\n[Info] Fitur Graph Dijkstra belum dimasukkan oleh Husni.\n";
+    cout << "\n|================================================|" << endl;
+    cout << "|      PILIH LOKASI ASAL & TUJUAN (KODE 0-10)    |" << endl;
+    cout << "|================================================|" << endl;
+    for (int i = 0; i < MAX_GEDUNG; i++) {
+        // Format print agar rapi
+        if (i < 10) cout << "  [0" << i << "] " << namaGedung[i] << endl;
+        else cout << "  [" << i << "] " << namaGedung[i] << endl;
+    }
+    cout << "|================================================|" << endl;
+    
+    int asal, tujuan;
+    cout << " Masukkan Kode Lokasi Asal   : "; cin >> asal;
+    cout << " Masukkan Kode Lokasi Tujuan : "; cin >> tujuan;
+
+    if (asal >= 0 && asal < MAX_GEDUNG && tujuan >= 0 && tujuan < MAX_GEDUNG) {
+        hitungDijkstra(asal, tujuan);
+    } else {
+        cout << "\n[Error] Kode lokasi yang Anda masukkan tidak valid!" << endl;
+    }
 }
 
 
@@ -469,7 +601,3 @@ int main() {
     
     return 0;
 }
-
-// Stub Sementara Pelengkap Prototype
-int cariIndeksGedung(string nama) { return -1; }
-void hitungDijkstra(int asal, int tujuan) {}
